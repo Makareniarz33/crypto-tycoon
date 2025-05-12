@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Crypto Tycoon v3.5</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { background: #111; color: #eee; font-family: sans-serif; padding: 20px; text-align: center; }
+    input, button, select { padding: 8px; margin: 5px; }
+    .hidden { display: none; }
+    canvas { background: #1a1a1a; border: 1px solid #444; margin-top: 20px; }
+    .active-tab { background-color: limegreen; color: black; }
+    #eventLog { max-height: 150px; overflow-y: auto; border: 1px solid #333; padding: 10px; background: #222; margin: 10px auto; width: 90%; }
+    img.crypto-icon { width: 32px; height: 32px; vertical-align: middle; margin-right: 8px; }
+  </style>
+</head>
+<body>
+
+  <div id="loginPanel">
+    <h2>Crypto Tycoon v3.5</h2>
+    <input id="loginName" placeholder="Nick" maxlength="20" />
+    <input id="loginPass" placeholder="Hasło" type="password" maxlength="20" />
+    <button onclick="login()">Zaloguj</button>
+    <div id="loginError" style="color:red;"></div>
+  </div>
+
+  <div id="gamePanel" class="hidden">
+    <p>Zalogowany jako: <b id="userDisplay"></b> <button onclick="logout()">Wyloguj</button></p>
+
+    <div>
+      <button id="tab-KTY" onclick="switchCoin('KTY')">KTY</button>
+      <button id="tab-ZAZ" onclick="switchCoin('ZAZ')">ZAZ</button>
+      <button id="tab-DGC" onclick="switchCoin('DGC')">DGC</button>
+      <button id="tab-BTC" onclick="switchCoin('BTC')">BTC</button>
+      <button id="tab-XTR" onclick="switchCoin('XTR')">XTR</button>
+    </div>
+
+    <p>
+      <img id="coinIcon" class="crypto-icon" src="" onerror="this.style.display='none'" />
+      Cena <span id="coinLabel">KTY</span>: <b id="price">$1.00</b>
+    </p>
+
+    <p>Saldo: <b id="balance">$100.00</b> | PRESTIGE: <b id="prestige">0</b></p>
+
+    <h3>Portfel</h3>
+    <p>
+      KTY: <span id="kty">0</span> |
+      ZAZ: <span id="zaz">0</span> |
+      DGC: <span id="dgc">0</span> |
+      BTC: <span id="btc">0</span> |
+      XTR: <span id="xtr">0</span>
+    </p>
+
+    <div>
+      <button onclick="buyCoin(1)">Kup 1</button>
+      <button onclick="buyCoin(10)">Kup 10</button>
+      <button onclick="buyMax()">Kup max</button>
+      <button onclick="sellCoin(1)">Sprzedaj 1</button>
+      <button onclick="sellAll()">Sprzedaj wszystko</button>
+    </div>
+
+    <p id="message" style="color:orange;"></p>
+    <canvas id="chart" width="800" height="300"></canvas>
+
+    <h3>🤖 AutoSell Bot</h3>
+    <div id="botPanel">
+      <p>Bot kosztuje $100,000</p>
+      <button onclick="buyBot()">Kup AutoSell Bot</button>
+    </div>
+    <div id="botConfig" class="hidden">
+      <select id="botCoin">
+        <option value="KTY">KTY</option>
+        <option value="ZAZ">ZAZ</option>
+        <option value="DGC">DGC</option>
+        <option value="BTC">BTC</option>
+        <option value="XTR">XTR</option>
+      </select>
+      <input id="botTrigger" placeholder="Cena sprzedaży" />
+      <button onclick="setBot()">Aktywuj Bot</button>
+    </div>
+
+    <h3>🎁 Nagrody</h3>
+    <button onclick="claimDaily()">Odbierz dzienny bonus</button>
+    <button onclick="spinSlot()">🎰 Slot machine</button>
+    <button onclick="resetPrestige()">🔁 Prestige (1M+)</button>
+
+    <h3>📜 Historia wydarzeń</h3>
+    <div id="eventLog"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
